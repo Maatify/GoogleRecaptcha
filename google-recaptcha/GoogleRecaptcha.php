@@ -21,9 +21,9 @@ abstract class GoogleRecaptcha
     protected function Validation(string $actionName = ''): array
     {
         $response['value'] = 503;
-        if(! empty($_POST['g_recaptcha'])){
+        if(! empty($_POST['g-recaptcha-response'])){
             $remoteIp = $_SERVER['REMOTE_ADDR'];
-            $gRecaptchaResponse = $_POST['g_recaptcha'];
+            $gRecaptchaResponse = $_POST['g-recaptcha-response'];
             $recaptcha = new ReCaptcha($this->secret);
             if(!empty($actionName)){
                 $recaptcha->setExpectedAction($actionName);
@@ -43,19 +43,21 @@ abstract class GoogleRecaptcha
 
     protected function JsonValidation(string $actionName = ''): void
     {
-        if(! empty($_POST['g_recaptcha'])){
+        //g-recaptcha-response
+        //g_recaptcha
+        if(! empty($_POST['g-recaptcha-response'])){
             $remoteIp = $_SERVER['REMOTE_ADDR'];
-            $gRecaptchaResponse = $_POST['g_recaptcha'];
+            $gRecaptchaResponse = $_POST['g-recaptcha-response'];
             $recaptcha = new ReCaptcha($this->secret);
             if(!empty($actionName)){
                 $recaptcha->setExpectedAction($actionName);
             }
             $resp = $recaptcha->verify($gRecaptchaResponse, $remoteIp);
             if (!$resp->isSuccess()) {
-                Json::Incorrect('g_recaptcha', Json::JsonFormat($resp->getErrorCodes()));
+                Json::Incorrect('g-recaptcha-response', Json::JsonFormat($resp->getErrorCodes()));
             }
         }else{
-            Json::Missing('g_recaptcha', 'Invalid G-Recaptcha Token');
+            Json::Missing('g-recaptcha-response', 'Invalid G-Recaptcha Token');
         }
     }
 
