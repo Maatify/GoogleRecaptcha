@@ -16,6 +16,7 @@ abstract class GoogleRecaptchaV2 extends GoogleRecaptcha
     public function __construct()
     {
         $this->secret = $_ENV['GRCAPV2SECRET'];
+        parent::__construct();
     }
 
 }
