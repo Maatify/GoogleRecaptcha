@@ -17,10 +17,18 @@ abstract class GoogleRecaptcha
 
     protected string $secret;
 
+    public function __construct()
+    {
+        if(empty($_POST['g-recaptcha-response']) &!empty($_POST['g_recaptcha'])){
+            $_POST['g-recaptcha-response'] = $_POST['g_recaptcha'];
+        }
+    }
+
 
     protected function Validation(string $actionName = ''): array
     {
         $response['value'] = 503;
+
         if(! empty($_POST['g-recaptcha-response'])){
             $remoteIp = $_SERVER['REMOTE_ADDR'];
             $gRecaptchaResponse = $_POST['g-recaptcha-response'];
