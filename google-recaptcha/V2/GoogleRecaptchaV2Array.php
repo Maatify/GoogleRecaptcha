@@ -10,11 +10,11 @@ namespace Maatify\GoogleRecaptcha\V2;
 
 class GoogleRecaptchaV2Array extends GoogleRecaptchaV2
 {
-    public function __construct()
+    public function Validate(string $action = ''): array
     {
         if(!empty($_ENV['GRCAPV2STATUS'])){
             parent::__construct();
-            return $this->Validation();
+            return parent::Validation($action);
         }else{
             return ['value'=>200];
         }
